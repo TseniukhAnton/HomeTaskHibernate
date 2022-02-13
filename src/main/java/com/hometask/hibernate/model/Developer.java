@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name="developers")
 public class Developer {
     @Id
-    @GeneratedValue(generator = "id", strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name="id", updatable = false, nullable = false)
     private int id;
     @Column(name="firstName")

@@ -11,7 +11,7 @@ import java.util.List;
 public class Team {
     @Id
     @Column(name="id", updatable = false, nullable = false)
-    @GeneratedValue(generator = "id", strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private int id;
     @Column(name="name")
     private String name;
