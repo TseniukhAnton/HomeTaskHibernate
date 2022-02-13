@@ -10,13 +10,14 @@ import java.util.List;
 @Table(name="teams")
 public class Team {
     @Id
-    @Column(name="id")
+    @Column(name="id", updatable = false, nullable = false)
     @GeneratedValue(generator = "id", strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name="name")
     private String name;
     @Column(name = "team_status")
     TeamStatus teamStatus;
+    @Column(name = "developers")
     @OneToMany(targetEntity = Developer.class,mappedBy = "team", cascade = CascadeType.ALL)
     private List<Developer> developers;
 }

@@ -5,7 +5,6 @@ import com.hometask.hibernate.repository.DeveloperRepository;
 import com.hometask.hibernate.repository.hibernate.HiberDeveloperRepoImpl;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public class DeveloperController {
     private final DeveloperRepository repo = new HiberDeveloperRepoImpl();
@@ -28,12 +27,13 @@ public class DeveloperController {
         return developer;
     }
 
-    public void createDeveloper(String firstName, String lastName, List skills){
+    public Developer createDeveloper(String firstName, String lastName, List skills){
         Developer developer = new Developer();
         developer.setFirstName(firstName);
         developer.setLastName(lastName);
         developer.setSkills(skills);
         repo.save(developer);
+        return developer;
     }
 
     public List<Developer> getAllDevelopers() {

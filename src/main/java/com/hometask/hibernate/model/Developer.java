@@ -26,8 +26,8 @@ public class Developer {
             cascade = CascadeType.ALL)
     private List<Skill> skills;
 
-    @ManyToOne(targetEntity = Team.class,fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id")
-    private Team team;
+//    @ManyToOne(targetEntity = Team.class,fetch = FetchType.LAZY)
+//    @JoinColumn(name = "team_id")
+//    private Team team;
 
 }

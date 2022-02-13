@@ -74,11 +74,9 @@ public class HiberSkillRepoImpl implements SkillRepository {
 
     @Override
     public void save(Skill skill) {
-        Session session = null;
-        Transaction transaction = null;
 
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.save(skill);
             transaction.commit();
@@ -87,24 +85,17 @@ public class HiberSkillRepoImpl implements SkillRepository {
             if (transaction != null) {
                 transaction.rollback();
             }
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
     }
 
     @Override
     public boolean update(Skill skill) {
-        Session session = null;
-        Transaction transaction = null;
 
+        Transaction transaction = null;
         if (getById(skill.getId()) == null) {
             return false;
         }
-
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.update(skill);
             transaction.commit();
@@ -114,10 +105,6 @@ public class HiberSkillRepoImpl implements SkillRepository {
                 transaction.rollback();
             }
             return false;
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
         return true;
     }
