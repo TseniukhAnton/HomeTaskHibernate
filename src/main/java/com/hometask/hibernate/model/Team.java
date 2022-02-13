@@ -18,6 +18,6 @@ public class Team {
     @Column(name = "team_status")
     TeamStatus teamStatus;
     @Column(name = "developers")
-    @OneToMany(targetEntity = Developer.class,mappedBy = "team", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Developer> developers;
 }

@@ -8,22 +8,19 @@ import javax.persistence.*;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name="developers")
 public class Developer {
     @Id
     @GeneratedValue
-    @Column(name="id", updatable = false, nullable = false)
+    @Column(name="id")
     private int id;
     @Column(name="firstName")
     private String firstName;
     @Column(name="lastName")
     private String lastName;
 
-    @OneToMany(targetEntity = Skill.class,mappedBy = "developer",
-            cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Skill> skills;
 
 //    @ManyToOne(targetEntity = Team.class,fetch = FetchType.LAZY)
