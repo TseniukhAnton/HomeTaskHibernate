@@ -1,6 +1,5 @@
 package com.hometask.hibernate.service;
 
-import com.hometask.hibernate.model.Skill;
 import com.hometask.hibernate.model.Team;
 import com.hometask.hibernate.repository.TeamRepository;
 import org.junit.jupiter.api.BeforeEach;
