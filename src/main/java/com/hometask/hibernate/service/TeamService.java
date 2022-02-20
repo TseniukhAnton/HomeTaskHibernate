@@ -1,9 +1,6 @@
 package com.hometask.hibernate.service;
 
-import com.hometask.hibernate.model.Developer;
-import com.hometask.hibernate.model.Skill;
 import com.hometask.hibernate.model.Team;
-import com.hometask.hibernate.model.TeamStatus;
 import com.hometask.hibernate.repository.TeamRepository;
 
 import java.util.List;
@@ -27,20 +24,19 @@ public class TeamService {
         return teamRepository.getAll();
     }
 
-    public void save(String name, List<Developer> developers, TeamStatus status) {
-        Team team = new Team();
-        team.setName(name);
-        team.setDevelopers(developers);
-        team.setTeamStatus(status);
-        teamRepository.save(team);
+    public Team save(Team team) {
+        return teamRepository.save(team);
     }
 
-    public boolean update(Team team, List<Developer> developers, TeamStatus status) {
-        if (developers != null) {
-            team.setDevelopers(developers);
-            team.setTeamStatus(status);
+    public Team update(Team team) {
+        List<Team> list = getAll();
+        for (Team currentteam : list) {
+            if (currentteam.getId() == (team.getId())) {
+                currentteam.setName(team.getName());
+                currentteam.setTeamStatus(team.getTeamStatus());
+                currentteam.setDevelopers(team.getDevelopers());
+            }
         }
-
         return teamRepository.update(team);
     }
 }

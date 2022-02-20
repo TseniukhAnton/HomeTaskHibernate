@@ -26,17 +26,11 @@ public class SkillService {
         return skillRepository.getAll();
     }
 
-    public void save(String name) {
-        Skill skill = new Skill();
-        skill.setName(name);
-        skillRepository.save(skill);
+    public Skill save(Skill skill) {
+        return skillRepository.save(skill);
     }
 
-    public boolean update(Skill skill, String name) {
-        if (name != null) {
-            skill.setName(name);
-        }
-
-        return skillRepository.update(skill);
+    public Skill update(Skill skill) {
+       return skillRepository.update(skill);
     }
 }

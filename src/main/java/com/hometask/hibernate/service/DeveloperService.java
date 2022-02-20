@@ -25,19 +25,11 @@ public class DeveloperService {
         return developerRepository.getAll();
     }
 
-    public void save(String firstName, String lastName, List<Skill> skills) {
-        Developer developer = new Developer();
-        developer.setFirstName(firstName);
-        developer.setLastName(lastName);
-        developer.setSkills(skills);
-        developerRepository.save(developer);
+    public Developer save(Developer developer) {
+        return developerRepository.save(developer);
     }
 
-    public boolean update(Developer developer, List<Skill> skills) {
-        if (skills != null) {
-            developer.setSkills(skills);
-        }
-
+    public Developer update(Developer developer) {
         return developerRepository.update(developer);
     }
 

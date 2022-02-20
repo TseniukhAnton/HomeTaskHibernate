@@ -1,12 +1,11 @@
 package com.hometask.hibernate;
 
-import com.hometask.hibernate.view.DeveloperView;
-import com.hometask.hibernate.view.SkillView;
+import com.hometask.hibernate.model.Team;
+import com.hometask.hibernate.view.CommonView;
 
 public class Main {
     public static void main(String[] args) {
-        DeveloperView developerView = new DeveloperView();
-        developerView.createDeveloperFromController();
-
+        CommonView view = new CommonView();
+        view.start();
     }
 }

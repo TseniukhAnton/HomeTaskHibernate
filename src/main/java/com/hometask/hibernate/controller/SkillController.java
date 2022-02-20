@@ -1,10 +1,7 @@
 package com.hometask.hibernate.controller;
 
-import com.hometask.hibernate.model.Developer;
 import com.hometask.hibernate.model.Skill;
-import com.hometask.hibernate.repository.DeveloperRepository;
 import com.hometask.hibernate.repository.SkillRepository;
-import com.hometask.hibernate.repository.hibernate.HiberDeveloperRepoImpl;
 import com.hometask.hibernate.repository.hibernate.HiberSkillRepoImpl;
 
 import java.util.List;
@@ -21,15 +18,14 @@ public class SkillController {
         repo.deleteById(id);
     }
 
-    public Skill updateSkill(Integer id, String name){
-        List<Skill> skills = getAllSkills();
-        Skill skill = skills.get(id);
+    public Skill updateSkill(Integer id, String name) {
+        Skill skill = repo.getById(id);
         skill.setName(name);
         repo.update(skill);
         return skill;
     }
 
-    public Skill createSkill(String name){
+    public Skill createSkill(String name) {
         Skill skill = new Skill();
         skill.setName(name);
         repo.save(skill);

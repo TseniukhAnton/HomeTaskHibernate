@@ -19,20 +19,15 @@ public class TeamController {
         repo.deleteById(id);
     }
 
-    public Team updateTeam(Integer id, String name, List developers, TeamStatus status){
-        List<Team> teams = getAllTeams();
-        Team team = teams.get(id);
+    public Team updateTeam(Integer id, String name, TeamStatus status){
+        Team team = repo.getById(id);
         team.setName(name);
-        team.setDevelopers(developers);
         team.setTeamStatus(status);
         repo.update(team);
         return team;
     }
 
-    public Team createTeam(String name, List developers){
-        Team team = new Team();
-        team.setName(name);
-        team.setDevelopers(developers);
+    public Team createTeam(Team team){
         team.setTeamStatus(TeamStatus.ACTIVE);
         repo.save(team);
         return team;

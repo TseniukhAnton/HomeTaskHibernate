@@ -5,35 +5,31 @@ import com.hometask.hibernate.repository.SkillRepository;
 import com.hometask.hibernate.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
 public class HiberSkillRepoImpl implements SkillRepository {
     @Override
     public Skill getById(Integer id) {
-        Session session = null;
         Skill skill = null;
 
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            skill = session.get(Skill.class, id);
+        try (Session session = HibernateUtil.getSessionFactory().openSession();) {
+            Query query = session.createQuery("FROM Skill where id = :id");
+            query.setParameter("id", id);
+            List skills = query.getResultList();
+            skill = (Skill) skills.get(0);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
         return skill;
     }
 
     @Override
     public boolean deleteById(Integer id) {
-        Session session = null;
         Transaction transaction = null;
 
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
+        try (Session session = HibernateUtil.getSessionFactory().openSession();) {
             transaction = session.beginTransaction();
             if (getById(id) == null) {
                 return false;
@@ -46,39 +42,29 @@ public class HiberSkillRepoImpl implements SkillRepository {
                 transaction.rollback();
             }
             return false;
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
         return true;
     }
 
     @Override
     public List<Skill> getAll() {
-        Session session = null;
         List skills = null;
 
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            skills = session.createQuery("FROM Skill").list();
+        try (Session session = HibernateUtil.getSessionFactory().openSession();) {
+            skills = session.createQuery("FROM Skill s JOIN FETCH s.developers sd").getResultList();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
         return skills;
     }
 
     @Override
-    public void save(Skill skill) {
-
+    public Skill save(Skill skill) {
         Transaction transaction = null;
+
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.save(skill);
+            session.persist(skill);
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,14 +72,14 @@ public class HiberSkillRepoImpl implements SkillRepository {
                 transaction.rollback();
             }
         }
+        return skill;
     }
 
     @Override
-    public boolean update(Skill skill) {
-
+    public Skill update(Skill skill) {
         Transaction transaction = null;
         if (getById(skill.getId()) == null) {
-            return false;
+            return null;
         }
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -104,8 +90,8 @@ public class HiberSkillRepoImpl implements SkillRepository {
             if (transaction != null) {
                 transaction.rollback();
             }
-            return false;
+            return null;
         }
-        return true;
+        return skill;
     }
 }

@@ -5,35 +5,31 @@ import com.hometask.hibernate.repository.TeamRepository;
 import com.hometask.hibernate.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
 public class HiberTeamRepoImpl implements TeamRepository {
     @Override
     public Team getById(Integer id) {
-        Session session = null;
         Team team = null;
 
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            team = session.get(Team.class, id);
+        try (Session session = HibernateUtil.getSessionFactory().openSession();) {
+            Query query = session.createQuery("FROM Team where id = :id");
+            query.setParameter("id", id);
+            List teams =  query.getResultList();
+            team = (Team) teams.get(0);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
         return team;
     }
 
     @Override
     public boolean deleteById(Integer id) {
-        Session session = null;
         Transaction transaction = null;
 
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
+        try (Session session = HibernateUtil.getSessionFactory().openSession();) {
             transaction = session.beginTransaction();
             if (getById(id) == null) {
                 return false;
@@ -46,39 +42,27 @@ public class HiberTeamRepoImpl implements TeamRepository {
                 transaction.rollback();
             }
             return false;
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
         return true;
     }
 
     @Override
     public List<Team> getAll() {
-        Session session = null;
         List teams = null;
 
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            teams = session.createQuery("FROM Team").list();
+        try (Session session = HibernateUtil.getSessionFactory().openSession();) {
+            teams = session.createQuery("FROM Team t JOIN FETCH t.developers td").getResultList();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
         return teams;
     }
 
     @Override
-    public void save(Team team) {
-        Session session = null;
+    public Team save(Team team) {
         Transaction transaction = null;
 
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
+        try (Session session = HibernateUtil.getSessionFactory().openSession();) {
             transaction = session.beginTransaction();
             session.save(team);
             transaction.commit();
@@ -87,39 +71,30 @@ public class HiberTeamRepoImpl implements TeamRepository {
             if (transaction != null) {
                 transaction.rollback();
             }
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
+        return team;
 
     }
 
     @Override
-    public boolean update(Team team) {
-        Session session = null;
+    public Team update(Team team) {
         Transaction transaction = null;
 
         if (getById(team.getId()) == null) {
-            return false;
+            return null;
         }
 
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
+        try (Session session = HibernateUtil.getSessionFactory().openSession();) {
             transaction = session.beginTransaction();
             session.update(team);
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
-            if (transaction != null){
+            if (transaction != null) {
                 transaction.rollback();
             }
-            return false;
-        }finally {
-            if (session!=null){
-                session.close();
-            }
+            return null;
         }
-        return true;
+        return team;
     }
 }
