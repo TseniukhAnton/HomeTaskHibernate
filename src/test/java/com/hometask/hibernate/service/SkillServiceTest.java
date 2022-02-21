@@ -4,6 +4,7 @@ import com.hometask.hibernate.model.Skill;
 import com.hometask.hibernate.repository.SkillRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,7 +16,7 @@ class SkillServiceTest {
 
     @BeforeEach
     void setup() {
-        this.skillRepositoryMock = mock(SkillRepository.class);
+        this.skillRepositoryMock = Mockito.mock(SkillRepository.class);
         this.skillService = new SkillService(skillRepositoryMock);
     }
 

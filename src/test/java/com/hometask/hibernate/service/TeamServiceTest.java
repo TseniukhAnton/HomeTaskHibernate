@@ -4,11 +4,11 @@ import com.hometask.hibernate.model.Team;
 import com.hometask.hibernate.repository.TeamRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class TeamServiceTest {
     private TeamService teamService;
@@ -16,7 +16,7 @@ class TeamServiceTest {
 
     @BeforeEach
     void setup() {
-        this.teamRepositoryMock = mock(TeamRepository.class);
+        teamRepositoryMock = mock(TeamRepository.class);
         this.teamService = new TeamService(teamRepositoryMock);
     }
 
