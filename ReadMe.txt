@@ -1,15 +1,15 @@
-Необходимо реализовать консольное CRUD приложение, которое взаимодействует с БД и позволяет выполнять все CRUD операции над сущностями:
+Write console CRUD app, that interacts with DB and provides all CRUD operations with entities:
 Team(id, name, List<Developer> developers)
 Developer(id, firstName, lastName, List<Skill> skills)
 Skill(id, name)
 TeamStatus (enum ACTIVE, DELETED)
-Требования:
-Все CRUD операции для каждой из сущностей
-Придерживаться подхода MVC
-Для сборки проекта использовать Maven
-Для взаимодействия с БД - Hibernate
-Для конфигурирования Hibernate - аннотации
-Инициализация БД должна быть реализована с помощью flyway
-Сервисный слой приложения должен быть покрыт юнит тестами (junit + mockito)
-Результатом выполнения задания должен быть репозиторий на github, с использованием Travis (https://travis-ci.org/) и отображением статуса сборки проекта.
-Технологии: Java, PostgreSQL, Hibernate, Flyway, Maven,
+Requirements:
+All CRUD operations for each entity
+MVC approach
+Use Maven
+Use Hibernate for DB interaction
+Configure Hibernate - annotations
+Flyway
+Service layer cover with unit tests (junit + mockito)
+Push to github
+Stack: Java, PostgreSQL, Hibernate, Flyway, Maven,
